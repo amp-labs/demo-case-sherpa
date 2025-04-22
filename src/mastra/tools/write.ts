@@ -6,6 +6,12 @@ import {
   WriteRecordsSyncWriteResponseSuccess,
 } from "@amp-labs/sdk-node-write/models/operations";
 
+export const CaseResultSchema = z.object({
+  AI_Severity__c: z.enum(["High", "Medium", "Low"]),
+  AI_Summary__c: z.string(),
+  Id: z.string(),
+}).describe("The data to write to Salesforce");
+
 const providerSchema = z
   .string()
   .describe(
@@ -97,7 +103,7 @@ export const updateActionTool = createTool({
     provider: providerSchema,
     objectName: z.string().describe("The name of the object to write to"),
     type: z.enum(["update"]).describe("The type of write operation"),
-    record: z.record(z.any()).describe("The record data to write"),
+    record: CaseResultSchema,
     groupRef: z
       .string()
       .describe("The group reference for the write operation"),
@@ -124,9 +130,12 @@ export const updateActionTool = createTool({
     response: z.any(),
   }),
   execute: async ({ context }) => {
-    console.log("Calling updateActionTool");
+
     const { provider, objectName, type, record, groupRef, associations } =
       context;
+
+    // TODO: Get groupRef somehow.
+    console.log("Calling updateActionTool", provider, objectName, type, record, groupRef, associations);
     try {
       const writeSDK = new SDKNodeWrite({
         apiKeyHeader: process.env.AMPERSAND_API_KEY || "",

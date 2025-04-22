@@ -1,8 +1,6 @@
 import { Step, Workflow } from "@mastra/core/workflows";
 import { z } from "zod";
-import { openai } from "@ai-sdk/openai";
-import { Agent } from "@mastra/core/agent";
-import { createActionTool, updateActionTool } from "../tools";
+import { CaseResultSchema } from "../tools";
 import { caseSherpaAgent } from "../agents";  
 // Define schemas for case data
 const CaseSchema = z.object({
@@ -11,11 +9,6 @@ const CaseSchema = z.object({
   Description: z.string(),
 });
 
-const CaseResultSchema = z.object({
-  AI_Severity__c: z.enum(["High", "Medium", "Low"]),
-  AI_Summary__c: z.string(),
-  Id: z.string(),
-});
 
 const classifyCaseStep = new Step({
   id: "classifyCase",
