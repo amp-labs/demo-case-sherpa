@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { SDKNodeWrite } from "@amp-labs/sdk-node-write";
-import { createTool, Tool } from "@mastra/core/tools";
+import { createTool } from "@mastra/core/tools";
 import {
   WriteRecordsResponse,
   WriteRecordsSyncWriteResponseSuccess,
