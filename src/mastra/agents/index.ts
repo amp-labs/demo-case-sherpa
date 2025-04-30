@@ -1,5 +1,5 @@
 import { Agent } from "@mastra/core/agent";
-import { createActionTool, updateActionTool } from "../tools";
+import { updateActionTool } from "../tools";
 import { openai } from "@ai-sdk/openai";
 
 const llm = openai("gpt-4o");
@@ -8,7 +8,6 @@ export const caseSherpaAgent = new Agent({
   name: "Case Sherpa Agent",
   model: llm,
   tools: {
-    createActionTool,
     updateActionTool,
   },
   instructions: `

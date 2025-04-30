@@ -6,10 +6,34 @@ import {
   WriteRecordsSyncWriteResponseSuccess,
 } from "@amp-labs/sdk-node-write/models/operations";
 
+class Ampersand {
+  private apiKey: string;
+  private write: SDKNodeWrite;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+    this.write = new SDKNodeWrite({
+      apiKeyHeader: this.apiKey,
+    });
+  }
+  async createRecord(objectName: string, record: any) {
+    const writeSDK = new SDKNodeWrite({
+      apiKeyHeader: this.apiKey,
+    });
+  }
+  setApiKey(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+  getWrite() {
+    return this.write;
+  }
+}
+
+
 export const CaseResultSchema = z.object({
-  AI_Severity__c: z.enum(["High", "Medium", "Low"]),
-  AI_Summary__c: z.string(),
-  Id: z.string(),
+  AI_Severity_c__c: z.enum(["High", "Medium", "Low"]),
+  AI_Summary_c__c: z.string(),
+  id: z.string(),
 }).describe("The data to write to Salesforce");
 
 const providerSchema = z
@@ -56,9 +80,8 @@ export const createActionTool = createTool({
     const { provider, objectName, type, record, groupRef, associations } =
       context;
     try {
-      const writeSDK = new SDKNodeWrite({
-        apiKeyHeader: process.env.AMPERSAND_API_KEY || "",
-      });
+      const ampersand = new Ampersand(process.env.AMPERSAND_API_KEY!);
+      const writeSDK = ampersand.getWrite();
       const writeData = {
         projectIdOrName: process.env.AMPERSAND_PROJECT_ID || "",
         integrationId: process.env.AMPERSAND_INTEGRATION_ID || "",
@@ -104,9 +127,6 @@ export const updateActionTool = createTool({
     objectName: z.string().describe("The name of the object to write to"),
     type: z.enum(["update"]).describe("The type of write operation"),
     record: CaseResultSchema,
-    groupRef: z
-      .string()
-      .describe("The group reference for the write operation"),
     associations: z
       .array(
         z.object({
@@ -131,27 +151,27 @@ export const updateActionTool = createTool({
   }),
   execute: async ({ context }) => {
 
-    const { provider, objectName, type, record, groupRef, associations } =
+    const { provider, objectName, type, record, associations } =
       context;
 
     // TODO: Get groupRef somehow.
-    console.log("Calling updateActionTool", provider, objectName, type, record, groupRef, associations);
+    console.log("Calling updateActionTool", provider, objectName, type, record, associations);
     try {
-      const writeSDK = new SDKNodeWrite({
-        apiKeyHeader: process.env.AMPERSAND_API_KEY || "",
-      });
+      const ampersand = new Ampersand(process.env.AMPERSAND_API_KEY!);
+      const writeSDK = ampersand.getWrite();
       const writeData = {
         projectIdOrName: process.env.AMPERSAND_PROJECT_ID || "",
         integrationId: process.env.AMPERSAND_INTEGRATION_ID || "",
         objectName,
         requestBody: {
-          groupRef,
+          groupRef: process.env.AMPERSAND_GROUP_REF || "",
           type,
           record,
           ...(associations && { associations }),
         },
       };
 
+      console.log("writeData", writeData);
       const data: WriteRecordsResponse = await writeSDK.write.records(
         writeData
       );

@@ -10,11 +10,6 @@ integrations:
           inheritFieldsAndMapping: true
           createEvent:
             enabled: always
-          updateEvent:
-            enabled: always
-            watchFieldsAuto: all
-          deleteEvent:
-            enabled: always
     read: # Required for field mapping
       objects:
         - objectName: case
