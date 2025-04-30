@@ -1,0 +1,29 @@
+specVersion: 1.0.0
+integrations:
+  - name: salesforceSubscribe
+    displayName: Subscribe to Salesforce Changes
+    provider: salesforce
+    subscribe:
+      objects:
+        - objectName: case
+          destination: subscribeWebhook
+          inheritFieldsAndMapping: true
+          createEvent:
+            enabled: always
+          updateEvent:
+            enabled: always
+            watchFieldsAuto: all
+          deleteEvent:
+            enabled: always
+    read: # Required for field mapping
+      objects:
+        - objectName: case
+          destination: subscribeWebhook
+          requiredFields:
+            - fieldName: Id
+            - fieldName: Subject
+            - fieldName: Description
+    write:
+      objects:
+        - objectName: case
+          inheritMapping: true
