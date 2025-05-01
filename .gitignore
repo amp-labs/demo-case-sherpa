@@ -2,3 +2,4 @@ reference-agent/
 node_modules/
 .env
 .mastra/
+dist/
