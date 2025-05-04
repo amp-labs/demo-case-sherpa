@@ -16,11 +16,6 @@ class Ampersand {
       apiKeyHeader: this.apiKey,
     });
   }
-  async createRecord(objectName: string, record: any) {
-    const writeSDK = new SDKNodeWrite({
-      apiKeyHeader: this.apiKey,
-    });
-  }
   setApiKey(apiKey: string) {
     this.apiKey = apiKey;
   }
