@@ -16,9 +16,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@amp-labs/sdk-node-platform": "^0.2.3",
-    "@amp-labs/sdk-node-write": "^0.2.4",
-    "@mastra/core": "0.9.1",
+    "@amp-labs/ai": "^0.0.1-alpha.5",
+    "@mastra/core": "0.9.3",
     "@supabase/supabase-js": "^2.45.4",
     "@types/body-parser": "^1.19.5",
     "ai": "^4.3.12",

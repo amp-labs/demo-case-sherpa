@@ -1,6 +1,6 @@
 import { Agent } from "@mastra/core";
-import { updateActionTool } from "../tools";
 import { openai } from "@ai-sdk/openai";
+import { updateRecordTool } from "@amp-labs/ai/mastra";
 
 const llm = openai("gpt-4o");
 
@@ -8,7 +8,7 @@ export const caseSherpaAgent = new Agent({
   name: "Case Sherpa Agent",
   model: llm,
   tools: {
-    updateActionTool,
+    updateRecordTool,
   },
   instructions: `
           You are an expert case triage agent who analyzes Salesforce cases to determine their severity and provide concise summaries.
