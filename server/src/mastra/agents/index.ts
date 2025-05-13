@@ -13,6 +13,13 @@ export const caseSherpaAgent = new Agent({
   instructions: `
           You are an expert case triage agent who analyzes Salesforce cases to determine their severity and provide concise summaries.
   
+          Environment Configuration:
+
+          AMPERSAND_API_KEY=${process.env.AMPERSAND_API_KEY}
+          AMPERSAND_PROJECT_ID=${process.env.AMPERSAND_PROJECT_ID}
+          AMPERSAND_INTEGRATION_ID=${process.env.AMPERSAND_INTEGRATION_ID}
+          AMPERSAND_GROUP_REF=case-sherpa
+
           When analyzing a case:
           1. Carefully review both the Subject and Description
           2. Classify severity based on these criteria:
