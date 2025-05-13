@@ -40,7 +40,7 @@ export const caseSherpaAgent = new Agent({
           - Create a quick understanding of the issue
           - Update the case record in Salesforce with the severity and summary
 
-          - After analyzing the case, update the case object in Salesforce using the updateActionTool with the following fields:
+          - After analyzing the case, update the case object in Salesforce using the updateRecordTool with the following fields in the record object:
             - AI_Severity__c
             - AI_Summary__c
         `,
