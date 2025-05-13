@@ -16,12 +16,7 @@ const processSubscribe = async (req: Request, res: Response) => {
       console.log("caseData", caseData)
       const response = await caseSherpaAgent.generate([
         { role: "user", content: 
-          `Could you please analyse the case data: \n\n ${JSON.stringify(caseData, null, 2)} 
-          
-          - After analyzing the case, update the case object in Salesforce using the updateRecordTool with the following fields in the record object:
-            - id - the id of the case object
-            - AI_Severity_c__c
-            - AI_Summary_c__c` },
+          `Could you please analyse the case data: \n\n ${JSON.stringify(caseData, null, 2)}` },
       ]);
       
       return res.status(200).json({ text: response?.text });
