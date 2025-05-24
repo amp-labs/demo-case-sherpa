@@ -7,17 +7,7 @@ export function validateWebhookData(data: any): data is WebhookData {
   if (!data || typeof data !== 'object') {
     return false;
   }
-
-  if (!Array.isArray(data.result) || data.result.length === 0) {
-    return false;
-  }
-
-  return data.result.every((item: any) => 
-    item && 
-    typeof item === 'object' && 
-    item.fields &&
-    typeof item.fields === 'object'
-  );
+  return true;
 }
 
 /**
@@ -29,7 +19,7 @@ export function validateCaseData(caseData: any): caseData is CaseData {
   }
 
   // Check for required fields
-  const requiredFields = ['Id'];
+  const requiredFields = ['id', 'subject', 'description']; 
   const hasRequiredFields = requiredFields.every(field => 
     caseData[field] && typeof caseData[field] === 'string'
   );
@@ -39,7 +29,7 @@ export function validateCaseData(caseData: any): caseData is CaseData {
   }
 
   // Check for at least one of Subject or Description
-  const hasContent = caseData.Subject || caseData.Description;
+  const hasContent = caseData.subject || caseData.description;
   
   return Boolean(hasContent);
 }

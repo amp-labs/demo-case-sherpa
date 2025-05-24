@@ -9,7 +9,7 @@ import { sanitizeCaseData } from '../utils/validation';
 export class CaseAnalysisService {
   async analyzeCase(caseData: CaseData): Promise<AgentResponse> {
     try {
-      logger.info('Starting case analysis', { caseId: caseData.Id });
+      logger.info('Starting case analysis', { caseId: caseData.id });
       
       const sanitizedData = sanitizeCaseData(caseData);
       
@@ -20,14 +20,14 @@ export class CaseAnalysisService {
       ]);
 
       logger.info('Case analysis completed', { 
-        caseId: caseData.Id,
+        caseId: caseData.id,
         responseLength: response?.text?.length || 0 
       });
 
       return response;
     } catch (error) {
       logger.error('Failed to analyze case', { 
-        caseId: caseData.Id,
+        caseId: caseData.id,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
       throw new Error(`Case analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -36,11 +36,8 @@ export class CaseAnalysisService {
   private buildAnalysisPrompt(caseData: CaseData): string {
     const caseInfo = {
       id: caseData.Id,
-      subject: caseData.Subject || 'No subject provided',
-      description: caseData.Description || 'No description provided',
-      priority: caseData.Priority || 'Not specified',
-      status: caseData.Status || 'Not specified',
-      createdDate: caseData.CreatedDate || 'Not specified',
+      subject: caseData.subject || 'No subject provided',
+      description: caseData.description || 'No description provided',
     };
 
     return `  

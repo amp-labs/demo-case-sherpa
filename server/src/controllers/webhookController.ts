@@ -29,7 +29,6 @@ export class WebhookController {
       });
 
       const webhookData = req.body;
-      logger.info('Webhook data', { webhookData });
       // Validate webhook data structure
       if (!validateWebhookData(webhookData)) {
         logger.warn('Invalid webhook data format', { webhookData });
@@ -37,7 +36,7 @@ export class WebhookController {
         return;
       }
 
-      const caseData = webhookData.result[0].fields;
+      const caseData = webhookData.caseData;
 
       // Validate case data
       if (!validateCaseData(caseData)) {
@@ -46,7 +45,7 @@ export class WebhookController {
         return;
       }
 
-      logger.info('Processing case', { caseId: caseData.Id });
+      logger.info('Processing case', { caseId: caseData.id });
 
       // Analyze the case
       const analysisResponse = await this.caseAnalysisService.analyzeCase(caseData);

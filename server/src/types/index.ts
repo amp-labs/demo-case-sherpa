@@ -1,17 +1,15 @@
 export interface CaseData {
-  Id: string;
-  Subject: string;
-  Description: string;
-  Priority?: string;
-  Status?: string;
-  CreatedDate?: string;
+  id: string;
+  subject: string;
+  description: string;
+  priority?: string;
+  status?: string;
+  createdDate?: string;
   [key: string]: any; // Allow for additional Salesforce fields
 }
 
 export interface WebhookData {
-  result: Array<{
-    fields: CaseData;
-  }>;
+  "caseData": CaseData;
 }
 
 export interface CaseAnalysisResult {
