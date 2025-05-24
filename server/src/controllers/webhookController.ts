@@ -29,7 +29,7 @@ export class WebhookController {
       });
 
       const webhookData = req.body;
-
+      logger.info('Webhook data', { webhookData });
       // Validate webhook data structure
       if (!validateWebhookData(webhookData)) {
         logger.warn('Invalid webhook data format', { webhookData });
