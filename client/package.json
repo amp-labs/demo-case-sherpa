@@ -1,5 +1,5 @@
 {
-    "name": "@amp-labs/demo-hubspot-apollo",
+    "name": "@amp-labs/case-sherpa-client",
     "version": "0.0.1",
     "scripts": {
         "dev": "vite --force",
