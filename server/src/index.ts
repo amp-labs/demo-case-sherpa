@@ -1,43 +1,102 @@
-import express, { Request, Response } from "express";
-import { caseSherpaAgent } from "./mastra/agents";
+import express from 'express';
+import { config, validateConfig } from './config';
+import { WebhookController } from './controllers/webhookController';
+import { logger } from './utils/logger';
 
-const PORT = process.env.PORT || 4001;
+/**
+ * Case Sherpa Server
+ * Handles webhook requests for Salesforce case analysis
+ */
+
+try {
+  validateConfig();
+  logger.info('Configuration validated successfully');
+} catch (error) {
+  logger.error('Configuration validation failed', { 
+    error: error instanceof Error ? error.message : 'Unknown error' 
+  });
+  process.exit(1);
+}
+
 const app = express();
+const webhookController = new WebhookController();
 
-app.use(express.json());
-
-const processSubscribe = async (req: Request, res: Response) => {
-  try {
-    const webhookData = req.body;
-    
-    if (webhookData && webhookData.result && webhookData.result.length > 0) {
-      const caseData = webhookData.result[0].fields;
-      
-      console.log("caseData", caseData)
-      const response = await caseSherpaAgent.generate([
-        { role: "user", content: 
-          `Could you please analyse the case data: \n\n ${JSON.stringify(caseData, null, 2)}` },
-      ]);
-      
-      return res.status(200).json({ text: response?.text });
-    } else {
-      return res.status(400).json({ error: "Invalid webhook data format" });
-    }
-  } catch (error) {
-    console.error("Error processing case:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-app.post("/process", async (req: Request, res: Response) => {
-  try {
-    await processSubscribe(req, res);
-  } catch (error) {
-    console.error("Error processing case:", error);
-    res.status(500).send("Internal Server Error");
-  }
+// Middleware
+app.use(express.json({ limit: '10mb' }));
+app.use((req, res, next) => {
+  logger.info('Incoming request', {
+    method: req.method,
+    url: req.url,
+    userAgent: req.get('User-Agent'),
+    contentType: req.get('Content-Type'),
+  });
+  next();
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    version: process.env.npm_package_version || '1.0.0',
+  });
 });
+
+// Main webhook processing endpoint
+app.post('/process', async (req, res) => {
+  await webhookController.processWebhook(req, res);
+});
+
+app.use('*', (req, res) => {
+  logger.warn('Route not found', { 
+    method: req.method, 
+    url: req.url 
+  });
+  res.status(404).json({ 
+    error: 'Route not found',
+    path: req.url,
+    method: req.method,
+  });
+});
+
+app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  logger.error('Unhandled error', { 
+    error: error.message,
+    stack: error.stack,
+    url: req.url,
+    method: req.method,
+  });
+  
+  res.status(500).json({ 
+    error: 'Internal server error',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  logger.info('SIGINT received, shutting down gracefully');
+  process.exit(0);
+});
+
+
+const server = app.listen(config.server.port, () => {
+  logger.info('Server started successfully', { 
+    port: config.server.port,
+    environment: process.env.NODE_ENV || 'development',
+    nodeVersion: process.version,
+  });
+});
+
+
+server.on('error', (error: Error) => {
+  logger.error('Server error', { error: error.message });
+  process.exit(1);
+});
+
+export default app;
