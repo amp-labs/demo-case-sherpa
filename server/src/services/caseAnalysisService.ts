@@ -23,7 +23,6 @@ export class CaseAnalysisService {
       runtimeContext.set('AMPERSAND_PROJECT_ID', config.ampersand.projectId)
       runtimeContext.set('AMPERSAND_INTEGRATION_NAME', config.ampersand.integrationName)
 
-      console.log('runtimeContext', runtimeContext);
       const response = await caseSherpaAgent.generate(prompt, {
         runtimeContext,
       });
@@ -54,6 +53,8 @@ export class CaseAnalysisService {
 
     Case Information:
     ${JSON.stringify(caseInfo, null, 2)}
+
+    The case ID is: ${caseData.id}
 
     Please provide:
     1. Severity classification (High/Medium/Low)
