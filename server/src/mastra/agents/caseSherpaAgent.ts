@@ -23,8 +23,7 @@ function buildAgentInstructions(): string {
       ## Environment Configuration
       - AMPERSAND_API_KEY: ${config.ampersand.apiKey}
       - AMPERSAND_PROJECT_ID: ${config.ampersand.projectId}
-      - AMPERSAND_INTEGRATION_ID: ${config.ampersand.integrationId}
-      - AMPERSAND_GROUP_REF: ${config.ampersand.groupRef}
+      - AMPERSAND_INTEGRATION_NAME: ${config.ampersand.integrationName}
 
       ## Analysis Process
       When analyzing a case, follow these steps:
@@ -65,7 +64,7 @@ function buildAgentInstructions(): string {
       After analyzing the case, you must:
 
       1. **Update Salesforce Record**
-         Use the updateRecordTool with these fields:
+         Use the updateRecordTool with these fields in the \`record\` object:
          - \`id\`: The case ID from the input data
          - \`AI_Severity_c__c\`: Your severity classification (High/Medium/Low)
          - \`AI_Summary_c__c\`: Your concise summary of the issue

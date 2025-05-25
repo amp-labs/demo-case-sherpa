@@ -2,22 +2,31 @@ import { CaseData, AgentResponse, CaseAnalysisResult } from '../types';
 import { caseSherpaAgent } from '../mastra/agents';
 import { logger } from '../utils/logger';
 import { sanitizeCaseData } from '../utils/validation';
+import { config } from '../config';
+import { RuntimeContext } from '@mastra/core/runtime-context';
 
 /**
  * Service for analyzing Salesforce cases using AI
  */
 export class CaseAnalysisService {
-  async analyzeCase(caseData: CaseData): Promise<AgentResponse> {
+  async analyzeCase(caseData: CaseData, groupRef: string): Promise<AgentResponse> {
     try {
       logger.info('Starting case analysis', { caseId: caseData.id });
       
       const sanitizedData = sanitizeCaseData(caseData);
       
-      const prompt = this.buildAnalysisPrompt(sanitizedData);
+      const prompt = this.buildAnalysisPrompt(sanitizedData, groupRef);
       
-      const response = await caseSherpaAgent.generate([
-        { role: "user", content: prompt },
-      ]);
+       
+      const runtimeContext = new RuntimeContext();
+      runtimeContext.set('AMPERSAND_API_KEY', config.ampersand.apiKey)
+      runtimeContext.set('AMPERSAND_PROJECT_ID', config.ampersand.projectId)
+      runtimeContext.set('AMPERSAND_INTEGRATION_NAME', config.ampersand.integrationName)
+
+      console.log('runtimeContext', runtimeContext);
+      const response = await caseSherpaAgent.generate(prompt, {
+        runtimeContext,
+      });
 
       logger.info('Case analysis completed', { 
         caseId: caseData.id,
@@ -33,7 +42,7 @@ export class CaseAnalysisService {
       throw new Error(`Case analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
-  private buildAnalysisPrompt(caseData: CaseData): string {
+  private buildAnalysisPrompt(caseData: CaseData, groupRef: string): string {
     const caseInfo = {
       id: caseData.Id,
       subject: caseData.subject || 'No subject provided',
@@ -41,7 +50,7 @@ export class CaseAnalysisService {
     };
 
     return `  
-    Please analyze the following Salesforce case data and determine its severity:
+    Please analyze the following Salesforce case data for the groupRef: ${groupRef} and determine its severity:
 
     Case Information:
     ${JSON.stringify(caseInfo, null, 2)}

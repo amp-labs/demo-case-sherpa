@@ -55,7 +55,7 @@ src/
    # Ampersand Configuration
    AMPERSAND_API_KEY=your_api_key_here
    AMPERSAND_PROJECT_ID=your_project_id_here
-   AMPERSAND_INTEGRATION_ID=your_integration_id_here
+   AMPERSAND_INTEGRATION_NAME=your_integration_name_here
 
    # OpenAI Configuration (if needed)
    OPENAI_API_KEY=your_openai_key_here

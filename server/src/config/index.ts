@@ -10,8 +10,7 @@ export const config = {
   ampersand: {
     apiKey: process.env.AMPERSAND_API_KEY,
     projectId: process.env.AMPERSAND_PROJECT_ID,
-    integrationId: process.env.AMPERSAND_INTEGRATION_ID,
-    groupRef: 'case-sherpa',
+    integrationName: process.env.AMPERSAND_INTEGRATION_NAME,
   },
   ai: {
     model: 'gpt-4o',
@@ -25,7 +24,7 @@ export function validateConfig(): void {
   const required = [
     'AMPERSAND_API_KEY',
     'AMPERSAND_PROJECT_ID', 
-    'AMPERSAND_INTEGRATION_ID',
+    'AMPERSAND_INTEGRATION_NAME',
   ];
 
   const missing = required.filter(key => !process.env[key]);
