@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { WebhookData, ProcessCaseResponse, ErrorResponse } from '../types';
 import { CaseAnalysisService } from '../services/caseAnalysisService';
-import { validateWebhookData, validateCaseData } from '../utils/validation';
+import { validateWebhookData, validateCaseData, extractCaseDataFromWebhook, extractGroupRefFromWebhook } from '../utils/validation';
 import { logger } from '../utils/logger';
 
 /**
@@ -29,6 +29,8 @@ export class WebhookController {
       });
 
       const webhookData = req.body;
+      logger.info('Webhook data', { webhookData });
+      
       // Validate webhook data structure
       if (!validateWebhookData(webhookData)) {
         logger.warn('Invalid webhook data format', { webhookData });
@@ -36,7 +38,18 @@ export class WebhookController {
         return;
       }
 
-      const caseData = webhookData.caseData;
+      // Extract case data from webhook
+      const casesData = extractCaseDataFromWebhook(webhookData);
+      const groupRef = extractGroupRefFromWebhook(webhookData);
+
+      if (casesData.length === 0) {
+        logger.warn('No case data found in webhook', { webhookData });
+        this.sendErrorResponse(res, 400, 'No case data found in webhook');
+        return;
+      }
+
+      // Process the first case (for now, we'll handle multiple cases later if needed)
+      const caseData = casesData[0];
 
       // Validate case data
       if (!validateCaseData(caseData)) {
@@ -48,7 +61,7 @@ export class WebhookController {
       logger.info('Processing case', { caseId: caseData.id });
 
       // Analyze the case
-      const analysisResponse = await this.caseAnalysisService.analyzeCase(caseData);
+      const analysisResponse = await this.caseAnalysisService.analyzeCase(caseData, groupRef);
       
       // Extract analysis results for additional context
       const analysisResults = this.caseAnalysisService.extractAnalysisResults(analysisResponse);
@@ -59,7 +72,7 @@ export class WebhookController {
       };
 
       logger.info('Case processing completed successfully', { 
-        caseId: caseData.Id,
+        caseId: caseData.id,
         severity: analysisResults?.severity 
       });
 
