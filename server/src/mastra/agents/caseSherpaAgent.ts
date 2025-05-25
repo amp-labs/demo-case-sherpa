@@ -65,7 +65,7 @@ function buildAgentInstructions(): string {
 
       1. **Update Salesforce Record**
          Use the updateRecordTool with these fields in the \`record\` object:
-         - \`id\`: The case ID from the input data
+         - \`id\`: The Salesforce Case ID from the input data
          - \`AI_Severity_c__c\`: Your severity classification (High/Medium/Low)
          - \`AI_Summary_c__c\`: Your concise summary of the issue
 
