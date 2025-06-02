@@ -1,7 +1,7 @@
 import { Agent } from "@mastra/core/agent";
 import { openai } from "@ai-sdk/openai";
-import { updateRecordTool } from "@amp-labs/ai/mastra";
 import { config, SEVERITY_CRITERIA } from "../../config";
+import { updateRecord } from "@amp-labs/ai/mastra";
 
 export function createCaseSherpaAgent(): Agent {
   const llm = openai(config.ai.model);
@@ -10,7 +10,7 @@ export function createCaseSherpaAgent(): Agent {
     name: "Case Sherpa Agent",
     model: llm,
     tools: {
-      updateRecordTool,
+      updateRecord,
     },
     instructions: buildAgentInstructions(),
   });

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { WebhookData, ProcessCaseResponse, ErrorResponse } from '../types';
+import { ProcessCaseResponse, ErrorResponse } from '../types';
 import { CaseAnalysisService } from '../services/caseAnalysisService';
 import { validateWebhookData, validateCaseData, extractCaseDataFromWebhook, extractGroupRefFromWebhook } from '../utils/validation';
 import { logger } from '../utils/logger';
