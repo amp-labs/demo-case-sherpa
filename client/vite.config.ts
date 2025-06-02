@@ -6,7 +6,8 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
     define: {
         'process.env': {
-          REACT_APP_AMP_SERVER: process.env.REACT_APP_AMP_SERVER,
+          VITE_AMPERSAND_PROJECT_ID: process.env.VITE_AMPERSAND_PROJECT_ID,
+          VITE_AMPERSAND_API_KEY: process.env.VITE_AMPERSAND_API_KEY,
         },
     },
     server: {

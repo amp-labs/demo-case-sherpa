@@ -10,7 +10,7 @@ integrations:
           inheritFieldsAndMapping: true
           createEvent:
             enabled: always
-    read: # Required for field mapping
+    read: # Required for the agent to analyse the data
       objects:
         - objectName: case
           destination: subscribeWebhook
