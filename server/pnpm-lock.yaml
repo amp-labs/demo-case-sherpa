@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@amp-labs/ai':
-        specifier: ^0.0.1-alpha.12
-        version: 0.0.1-alpha.12(@mastra/core@0.9.3(openapi-types@12.1.3)(react@19.1.0)(zod@3.24.3))(ai@4.3.12(react@19.1.0)(zod@3.24.3))
+        specifier: ^0.1.0
+        version: 0.1.0(@mastra/core@0.9.3(openapi-types@12.1.3)(react@19.1.0)(zod@3.24.3))(ai@4.3.12(react@19.1.0)(zod@3.24.3))
       '@mastra/core':
         specifier: 0.9.3
         version: 0.9.3(openapi-types@12.1.3)(react@19.1.0)(zod@3.24.3)
@@ -92,8 +92,8 @@ packages:
     peerDependencies:
       zod: ^3.23.8
 
-  '@amp-labs/ai@0.0.1-alpha.12':
-    resolution: {integrity: sha512-Ew/yY3kVdYkUU5jOfyhOQekUw1TPEw181G4KAagbPpZwxN629cIi/oz8vUTnz64zJD1SvKTARbjb0rXPUJlqOg==}
+  '@amp-labs/ai@0.1.0':
+    resolution: {integrity: sha512-z9ZXiIDv3fd2PQrhEq3flTR82TdVO7NAKizUY2rTWRXZL2XJSVvrVo8CLRoq59hsHV9SnRsPMotiIO7pA3ZBow==}
     peerDependencies:
       '@mastra/core': ^0.9.1
       ai: ^4.3.13
@@ -3560,7 +3560,7 @@ snapshots:
       zod: 3.24.3
       zod-to-json-schema: 3.24.5(zod@3.24.3)
 
-  '@amp-labs/ai@0.0.1-alpha.12(@mastra/core@0.9.3(openapi-types@12.1.3)(react@19.1.0)(zod@3.24.3))(ai@4.3.12(react@19.1.0)(zod@3.24.3))':
+  '@amp-labs/ai@0.1.0(@mastra/core@0.9.3(openapi-types@12.1.3)(react@19.1.0)(zod@3.24.3))(ai@4.3.12(react@19.1.0)(zod@3.24.3))':
     dependencies:
       '@amp-labs/sdk-node-platform': 0.2.3(@modelcontextprotocol/sdk@1.11.2)(zod@3.24.3)
       '@amp-labs/sdk-node-write': 0.2.4(@modelcontextprotocol/sdk@1.11.2)(zod@3.24.3)
