@@ -8,10 +8,8 @@ Case Sherpa automatically processes incoming Salesforce cases by analyzing their
 
 ## Demo
 
-<video width="100%" style="max-width: 800px;" controls>
-  <source src="./assets/case-sherpa-demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+https://github.com/user-attachments/assets/0e6be9ca-ca3a-4428-981e-f04d9c19b870
 
 
 ## Features
