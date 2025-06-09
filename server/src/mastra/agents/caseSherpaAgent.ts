@@ -69,6 +69,14 @@ function buildAgentInstructions(): string {
          - \`AI_Severity_c__c\`: Your severity classification (High/Medium/Low)
          - \`AI_Summary_c__c\`: Your concise summary of the issue
 
+      For example: {
+        "record": {
+          "id": "001234567890",
+          "AI_Severity_c__c": "High",
+          "AI_Summary_c__c": "The entire website is down, this affects all users and is a critical issue."
+        }
+      }
+
       2. **Provide Analysis**
          Include in your response:
          - Severity classification with brief reasoning
