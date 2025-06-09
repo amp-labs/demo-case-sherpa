@@ -64,7 +64,7 @@ function buildAgentInstructions(): string {
       After analyzing the case, you must:
 
       1. **Update Salesforce Record**
-         Use the updateRecordTool with these fields in the \`record\` object:
+         Use the updateRecordTool with these fields nested in the \`record\` key:
          - \`id\`: The Salesforce Case ID from the input data
          - \`AI_Severity_c__c\`: Your severity classification (High/Medium/Low)
          - \`AI_Summary_c__c\`: Your concise summary of the issue
